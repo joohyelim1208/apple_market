@@ -1,6 +1,7 @@
 import 'package:apple_market/entity/item.dart';
 import 'package:flutter/material.dart';
 
+// named param or WritePage innerfunction
 void addItem(
   String name,
   double price,

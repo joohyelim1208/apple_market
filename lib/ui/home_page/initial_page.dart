@@ -1,3 +1,5 @@
+import 'package:apple_market/entity/item.dart';
+import 'package:apple_market/features/fetch_data_from_write_page.dart';
 import 'package:flutter/material.dart';
 
 // body에 List가 있을 때, 없을 때 로고만 있는 상태를 생각해서 구성
@@ -8,7 +10,7 @@ class InitialPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // 임시 데이터 리스트. 없으면 로고만 보임
-    final List<String> items = [];
+    final List<Item> items = [];
 
     return Scaffold(
       body:
@@ -26,17 +28,22 @@ class InitialPage extends StatelessWidget {
           : ListView.builder(
               itemCount: items.length,
               itemBuilder: (context, index) {
-                return ListTile(title: Text(items[index]));
+                return ListTile(title: Text(items[index].name));
               },
             ),
       // 플로팅 액션 버튼
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // WritePage로 이동함
+        onPressed: () async {
+          final item = await fetchDataFromWritePage(context);
+          if (item != null) {
+            items.add(item);
+          }
+
+          return;
         },
         backgroundColor: Theme.of(context).colorScheme.primary,
-        child: Icon(Icons.add, color: Colors.white),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
+        child: Icon(Icons.add, color: Colors.white),
       ),
     );
   }
