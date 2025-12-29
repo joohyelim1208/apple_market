@@ -1,3 +1,5 @@
+import 'package:apple_market/ui/home_page/initial_page.dart';
+import 'package:apple_market/ui/home_page/main_app_bar.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
@@ -6,20 +8,9 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
-      body: Container(
-        width: 100,
-        height: 100,
-        child: Column(
-          children: [
-            Text("test", style: Theme.of(context).textTheme.bodyMedium),
-            Text(
-              "test2",
-              style: TextStyle(color: Theme.of(context).colorScheme.primary),
-            ),
-          ],
-        ),
-      ),
+      appBar: MainAppBar(),
+      body: InitialPage(),
+      //
     );
   }
 }

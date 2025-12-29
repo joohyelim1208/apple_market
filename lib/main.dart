@@ -20,6 +20,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(home: (WritePage()));
+    return MaterialApp(
+      title: 'AppleMarket',
+      theme: Themes.light,
+      home: HomePage(),
+    );
   }
 }

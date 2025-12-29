@@ -2,8 +2,7 @@ import 'dart:ui';
 
 class Item {
   Item({
-    
-    this.image,
+    this.imageUrl,
     required this.des,
     required this.name,
     required this.price,
@@ -14,6 +13,6 @@ class Item {
   
   final double price;
   final int quantity;
-  final Image? image;
+  final String? imageUrl;
   final String des;
 }
