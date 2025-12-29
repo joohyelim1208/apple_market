@@ -11,6 +11,6 @@ class DetailPage extends StatelessWidget{
       body: Center(
         child: Container()
       ),
-    );
+    );  
   }
 }
