@@ -140,20 +140,18 @@ class _InitialPageState extends State<InitialPage> {
             ),
       // 플로팅 액션 버튼. 사이즈. 색상은 지정된 테마
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        // 아직 파일이 합쳐지지 않아서 오류가 나서 임시로 주석처리
-        // async {
-        //   // 작성페이지로 넘어감. 아이템이 없으면 동작하지 않음
-        //   final item = await fetchDataFromWritePage(context);
-        //   if (item != null) {
-        //     // 데이터가 추가되었음을 알리고 화면을 갱신한다.
-        //     setState(() {
-        //       items.add(item);
-        //     });
-        //   }
+        onPressed: () async {
+          // 작성페이지로 넘어감. 아이템이 없으면 동작하지 않음
+          final item = await fetchDataFromWritePage(context);
+          if (item != null) {
+            // 데이터가 추가되었음을 알리고 화면을 갱신한다.
+            setState(() {
+              items.add(item);
+            });
+          }
 
-        //   return;
-        // },
+          return;
+        },
         backgroundColor: Theme.of(context).colorScheme.primary,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
         child: Icon(Icons.add, color: Colors.white),

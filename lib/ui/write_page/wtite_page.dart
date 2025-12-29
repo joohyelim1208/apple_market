@@ -144,7 +144,7 @@ class _WritePageState extends State<WritePage> {
                     price: double.tryParse(priceController.text) ?? 0.0,
                     quantity: quantity,
                     des: detailController.text,
-                    image: null,
+                    imageUrl: null,
                   );
                   setState(() {
                     itemList.add(newItem);
