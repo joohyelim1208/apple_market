@@ -1,6 +1,6 @@
 import 'package:apple_market/entity/item.dart';
+import 'package:apple_market/theme/tokens/app_spacing.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 class WritePage extends StatefulWidget {
   const WritePage({super.key});
@@ -11,142 +11,143 @@ class WritePage extends StatefulWidget {
 
 class _WritePageState extends State<WritePage> {
   int quantity = 1;
-  List<Item> itemList = [];
   final TextEditingController nameController = TextEditingController();
   final TextEditingController priceController = TextEditingController();
   final TextEditingController detailController = TextEditingController();
+
+  bool isTitleValid = false;
+  bool isPriceValid = false;
+  bool isDetailValid = false;
+
+  @override
+  void initState() {
+    nameController.addListener(() {
+      if (nameController.text.trim().isEmpty) {
+        setState(() {
+          isTitleValid = false;
+        });
+      } else {
+        setState(() {
+          isTitleValid = true;
+        });
+      }
+    });
+    priceController.addListener(() {
+      if (priceController.text.trim().isEmpty) {
+        setState(() {
+          isPriceValid = false;
+        });
+      } else {
+        setState(() {
+          isPriceValid = true;
+        });
+      }
+    });
+    detailController.addListener(() {
+      if (detailController.text.trim().isEmpty) {
+        setState(() {
+          isDetailValid = false;
+        });
+      } else {
+        setState(() {
+          isDetailValid = true;
+        });
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        systemOverlayStyle: const SystemUiOverlayStyle(
-          statusBarColor: Colors.white,
-          statusBarIconBrightness: Brightness.dark,
-        ),
+        title: Text('상품등록'),
 
-        toolbarHeight: 64,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.pop(context);
           },
         ),
-        title: Text('Title', style: Theme.of(context).textTheme.headlineLarge),
-
-        centerTitle: true,
       ),
       body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              IconButton(
-                icon: const Icon(Icons.add_a_photo_outlined),
-                onPressed: () {
-                  print("사진 추가 클릭됨");
-                },
-              ),
-              Text("상품명", style: Theme.of(context).textTheme.titleMedium),
-              Container(
-                height: 44,
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                decoration: BoxDecoration(
-                  color: Colors.grey[200],
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: TextField(
-                  controller: nameController,
-                  style: Theme.of(context).textTheme.titleMedium,
-                  decoration: InputDecoration(
-                    border: InputBorder.none,
-                    hintText: '상품명을 입력하세요',
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+
+        child: Column(
+          spacing: 8,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            IconButton(
+              icon: const Icon(Icons.add_a_photo_outlined),
+              onPressed: () {},
+            ),
+            Text("상품명", style: Theme.of(context).textTheme.titleMedium),
+
+            TextField(
+              controller: nameController,
+
+              decoration: InputDecoration(hintText: '상품명을 입력하세요'),
+            ),
+
+            Text("가격", style: Theme.of(context).textTheme.titleMedium),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Expanded(
+                  child: TextField(
+                    controller: priceController,
+
+                    decoration: InputDecoration(hintText: '가격명을 입력하세요'),
                   ),
                 ),
-              ),
-              Text("가격", style: Theme.of(context).textTheme.titleMedium),
-              Container(
-                height: 44,
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                decoration: BoxDecoration(
-                  color: Colors.grey[200],
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Expanded(
-                      child: TextField(
-                        controller: priceController,
-                        style: Theme.of(context).textTheme.titleMedium,
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                          hintText: '가격명을 입력하세요',
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      child: Row(
-                        children: [
-                          IconButton(
-                            onPressed: () {
-                              setState(() {
-                                if (quantity > 1) quantity--;
-                              });
-                            },
-                            icon: const Icon(Icons.remove),
-                          ),
-                          IconButton(
-                            onPressed: () {
-                              setState(() {
-                                quantity++;
-                              });
-                            },
-                            icon: const Icon(Icons.add),
-                          ),
-                          Text(
-                            '$quantity',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+                AppSpacing.w12,
 
-              Text("상세정보", style: Theme.of(context).textTheme.titleMedium),
-              Container(
-                height: 340,
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                decoration: BoxDecoration(
-                  color: Colors.grey[200],
-                  borderRadius: BorderRadius.circular(12),
+                IconButton(
+                  onPressed: () {
+                    setState(() {
+                      if (quantity > 1) quantity--;
+                    });
+                  },
+                  icon: const Icon(Icons.remove),
                 ),
-                child: TextField(
-                  controller: detailController,
-                  style: Theme.of(context).textTheme.titleMedium,
-                  decoration: InputDecoration(hintText: '상세정보를 자세히 입력하세요'),
+                Text(
+                  '$quantity',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
-              ),
+                IconButton(
+                  onPressed: () {
+                    setState(() {
+                      quantity++;
+                    });
+                  },
+                  icon: const Icon(Icons.add),
+                ),
+              ],
+            ),
 
+            Text("상세정보", style: Theme.of(context).textTheme.titleMedium),
+            TextField(
+              controller: detailController,
+
+              keyboardType: TextInputType.multiline,
+              maxLines: 15,
+              maxLength: 500,
+              decoration: InputDecoration(hintText: '상세정보를 자세히 입력하세요'),
+            ),
+
+            if (isTitleValid && isPriceValid && isDetailValid)
               GestureDetector(
                 onTap: () {
-                  Item newItem = Item(
+                  final item = Item(
+                    des: detailController.text,
                     name: nameController.text,
                     price: double.tryParse(priceController.text) ?? 0.0,
                     quantity: quantity,
-                    des: detailController.text,
-                    imageUrl: null,
                   );
-                  setState(() {
-                    itemList.add(newItem);
-                  });
+
+                  Navigator.pop(context, item);
                 },
+
                 child: Container(
                   width: double.infinity,
                   height: 52,
@@ -170,9 +171,37 @@ class _WritePageState extends State<WritePage> {
                     ],
                   ),
                 ),
+              )
+            else
+              GestureDetector(
+                onTap: () {
+                  null;
+                },
+                child: Container(
+                  width: double.infinity,
+                  height: 52,
+                  margin: const EdgeInsets.symmetric(vertical: 20),
+                  decoration: BoxDecoration(
+                    color: Colors.grey,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const [
+                      Icon(Icons.check, color: Colors.white),
+                      SizedBox(width: 8),
+                      Text(
+                        "등록하기",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
-            ],
-          ),
+          ],
         ),
       ),
     );
