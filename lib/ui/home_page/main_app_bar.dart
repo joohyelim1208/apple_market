@@ -1,7 +1,18 @@
+import 'package:apple_market/ui/cart_page/cart_page.dart';
 import 'package:flutter/material.dart';
 
-class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
+class MainAppBar extends StatefulWidget implements PreferredSizeWidget {
   const MainAppBar({super.key});
+
+  @override
+  State<MainAppBar> createState() => _MainAppBarState();
+
+  @override
+  Size get preferredSize => Size.fromHeight(64);
+}
+
+class _MainAppBarState extends State<MainAppBar> {
+  final List items = [];
 
   @override
   Widget build(BuildContext context) {
@@ -14,15 +25,17 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
           icon: Icon(Icons.search),
           //
         ),
+        // 카트 아이콘을 누르면 장바구니 페이지로 이동
         IconButton(
-          onPressed: () {},
+          onPressed: () async {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => CartPage()),
+            );
+          },
           icon: Icon(Icons.shopping_cart),
-          //
         ),
       ],
     );
   }
-
-  @override
-  Size get preferredSize => Size.fromHeight(64);
 }

@@ -11,7 +11,7 @@ class AppTextTheme {
       ),
       bodyMedium: GoogleFonts.notoSans(
         color: color,
-        fontSize: 16,
+        fontSize: 20,
         fontWeight: FontWeight.bold,
       ),
       bodySmall: GoogleFonts.notoSans(color: color, fontSize: 14),

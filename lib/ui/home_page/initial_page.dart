@@ -1,5 +1,7 @@
 import 'package:apple_market/entity/item.dart';
 import 'package:apple_market/features/fetch_data_from_write_page.dart';
+import 'package:apple_market/theme/tokens/app_spacing.dart';
+import 'package:apple_market/ui/detail_page/detail_page.dart';
 import 'package:flutter/material.dart';
 
 // body에 List가 있을 때, 없을 때 로고만 있는 상태를 생각해서 구성
@@ -130,15 +132,11 @@ class _InitialPageState extends State<InitialPage> {
               },
               // 구분선
               separatorBuilder: (BuildContext context, int index) {
-                return const Divider(
-                  // 구분선의 속성
-                  color: Colors.grey,
-                  thickness: 0.5,
-                  height: 1,
-                );
+                return const Divider();
               },
             ),
       // 플로팅 액션 버튼. 사이즈. 색상은 지정된 테마
+      // writePage로 전환
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           // 작성페이지로 넘어감. 아이템이 없으면 동작하지 않음
@@ -152,9 +150,7 @@ class _InitialPageState extends State<InitialPage> {
 
           return;
         },
-        backgroundColor: Theme.of(context).colorScheme.primary,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
-        child: Icon(Icons.add, color: Colors.white),
+        child: Icon(Icons.add),
       ),
     );
   }
@@ -163,7 +159,6 @@ class _InitialPageState extends State<InitialPage> {
 // 상품 리스트
 Widget _productListRow(Item item, BuildContext context) {
   // 가격 소수점 없애고'toInt', 문자열로 변환'toString', 정규식으로 1000단위마다 콤마 추가하기
-  // 정규표현식 알아보기
   String formatPrice(double price) {
     return price.toInt().toString().replaceAllMapped(
       RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
@@ -171,65 +166,77 @@ Widget _productListRow(Item item, BuildContext context) {
     );
   }
 
-  return Padding(
-    padding: const EdgeInsets.symmetric(vertical: 12),
-    child: Row(
-      // 좌측에서 시작
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        ClipRRect(
-          // 사진이 들어갈 사이즈와 둥근 모서리를 지정하고, 이미지는 컨테이너 안에 꽉 차게끔 한다.
-          borderRadius: BorderRadius.circular(12),
-          child: Container(
-            width: 100,
-            height: 100,
-            color: Colors.grey[200],
-            child: Image.asset(
-              // entity 경로로 바꿔주면 해결됨. 변수명 변경해서
-              // String 타입의 image를 위젯으로 표시하는 방법
-              item.imageUrl!,
-              fit: BoxFit.cover,
+  // 페이지 전환을 위해 네이게이터 사용
+  return InkWell(
+    onTap: () {
+      Navigator.push(
+        context,
+        // DetailPage로 연결시킴
+        MaterialPageRoute(builder: (context) => DetailPage()),
+      );
+    },
+    // 패딩부분부터 네이게이터 안으로 가지고 옴
+    child: Padding(
+      padding: const EdgeInsets.symmetric(vertical: 12),
+      child: Row(
+        // 좌측에서 시작
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          ClipRRect(
+            // 사진이 들어갈 사이즈와 둥근 모서리를 지정하고, 이미지는 컨테이너 안에 꽉 차게끔 한다.
+            borderRadius: BorderRadius.circular(12),
+            child: Container(
+              width: 100,
+              height: 100,
+              color: Colors.grey[200],
+              child: Image.asset(
+                // entity 경로로 바꿔주면 해결됨. 변수명 변경해서
+                // String 타입의 image를 위젯으로 표시하는 방법
+                item.imageUrl!,
+                fit: BoxFit.cover,
+              ),
             ),
           ),
-        ),
-        // 텍스트 정보가 들어갈 곳
-        SizedBox(width: 16),
-        Expanded(
-          child: Container(
-            height: 100,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // 리스트에 쓰이는 텍스트의 설정
-                Text(
-                  //
-                  item.name,
-                  style: Theme.of(context).textTheme.bodyMedium,
-                  // 제목은 최대 2줄 까지만
-                  maxLines: 2,
-                  // 말줄임표 생략표시기능
-                  overflow: TextOverflow.ellipsis,
-                  //
-                ),
-                const Spacer(),
-                Row(
-                  // 문자열 제일 오른쪽 하단. 가격표
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text(
-                      // "${item.price}원", 소수점 없애주는 함수 적용해주기
-                      "${formatPrice(item.price)}원",
-                      style: Theme.of(context).textTheme.headlineLarge,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ],
-                ),
-              ],
+          // 텍스트 정보가 들어갈 곳
+          // sizedBox와 같은 것.
+          AppSpacing.w12,
+          Expanded(
+            child: SizedBox(
+              height: 100,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // 리스트에 쓰이는 텍스트의 설정
+                  Text(
+                    //
+                    item.name,
+                    style: Theme.of(context).textTheme.bodyMedium,
+                    // 제목은 최대 2줄 까지만
+                    maxLines: 2,
+                    // 말줄임표 생략표시기능
+                    overflow: TextOverflow.ellipsis,
+                    //
+                  ),
+                  const Spacer(),
+                  Row(
+                    // 문자열 제일 오른쪽 하단. 가격표
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Text(
+                        // "${item.price}원", 소수점 없애주는 함수 적용해주기
+                        "${formatPrice(item.price)}원",
+                        style: Theme.of(context).textTheme.titleLarge,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     ),
   );
 }
