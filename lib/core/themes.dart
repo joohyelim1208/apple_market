@@ -52,4 +52,6 @@ class Themes {
       titleSmall: TextStyle(color: Colors.white, fontFamily: "NotoSans"),
     ),
   );
+
+  static ThemeData? get light => null;
 }
