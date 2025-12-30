@@ -12,6 +12,6 @@ class Item {
   final String name;
   final double price;
   final int quantity;
-  final Image? image;
+  final Image? image; // String
   final String des;
 }
