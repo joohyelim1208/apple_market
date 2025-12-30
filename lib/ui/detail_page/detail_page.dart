@@ -1,16 +1,30 @@
-
 import 'package:flutter/material.dart';
 
-class DetailPage extends StatelessWidget{
+class DetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Image.asset("assets/images/AppleMarketLogo.webp", height: 30),
+        titleTextStyle: Text(
+          "Title",
+          style: Theme.of(context).textTheme.titleLarge,
+        ).style,
+        toolbarHeight: 64,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
       ),
-      body: Center(
-        child: Container()
+      body: Column(
+        children: [
+          Container(
+            
+          )
+        ],
       ),
-    );  
+    );
   }
 }
