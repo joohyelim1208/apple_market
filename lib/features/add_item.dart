@@ -9,7 +9,5 @@ void addItem(
   int quantity,
   BuildContext context,
 ) {
-  final item = Item(des: des, name: name, price: price, quantity: quantity);
-
-  Navigator.pop(context, item);
+ 
 }

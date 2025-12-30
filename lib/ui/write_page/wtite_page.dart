@@ -11,7 +11,6 @@ class WritePage extends StatefulWidget {
 
 class _WritePageState extends State<WritePage> {
   int quantity = 1;
-  List<Item> itemList = [];
   final TextEditingController nameController = TextEditingController();
   final TextEditingController priceController = TextEditingController();
   final TextEditingController detailController = TextEditingController();
