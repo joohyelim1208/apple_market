@@ -1,3 +1,4 @@
+import 'package:apple_market/theme/app_theme.dart';
 import 'package:apple_market/ui/home_page/home_page.dart';
 import 'package:flutter/material.dart';
 
@@ -12,7 +13,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'AppleMarket',
-      theme: ThemeData(colorScheme: .fromSeed(seedColor: Colors.deepPurple)),
+      theme: AppTheme.lightTheme,
+      darkTheme: AppTheme.darkTheme,
+      themeMode: ThemeMode.light,
       home: HomePage(),
     );
   }

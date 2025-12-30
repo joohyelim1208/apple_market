@@ -130,10 +130,7 @@ class _WritePageState extends State<WritePage> {
                 child: TextField(
                   controller: detailController,
                   style: Theme.of(context).textTheme.titleMedium,
-                  decoration: InputDecoration(
-                    border: InputBorder.none,
-                    hintText: '상세정보를 자세히 입력하세요',
-                  ),
+                  decoration: InputDecoration(hintText: '상세정보를 자세히 입력하세요'),
                 ),
               ),
 
