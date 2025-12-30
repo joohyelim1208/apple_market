@@ -1,4 +1,4 @@
-import 'package:apple_market/core/themes.dart';
+import 'package:apple_market/theme/app_theme.dart';
 import 'package:apple_market/ui/home_page/home_page.dart';
 import 'package:apple_market/ui/write_page/wtite_page.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'AppleMarket',
-      theme: Themes.light,
+      theme: AppTheme.lightTheme,
       home: HomePage(),
     );
   }
