@@ -130,12 +130,7 @@ class _InitialPageState extends State<InitialPage> {
               },
               // 구분선
               separatorBuilder: (BuildContext context, int index) {
-                return const Divider(
-                  // 구분선의 속성
-                  color: Colors.grey,
-                  thickness: 0.5,
-                  height: 1,
-                );
+                return const Divider();
               },
             ),
       // 플로팅 액션 버튼. 사이즈. 색상은 지정된 테마
@@ -152,9 +147,7 @@ class _InitialPageState extends State<InitialPage> {
 
           return;
         },
-        backgroundColor: Theme.of(context).colorScheme.primary,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
-        child: Icon(Icons.add, color: Colors.white),
+        child: Icon(Icons.add),
       ),
     );
   }

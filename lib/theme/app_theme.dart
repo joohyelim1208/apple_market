@@ -1,4 +1,4 @@
-import 'package:apple_market/theme/colors_scheme.dart';
+import 'package:apple_market/theme/color_scheme.dart';
 import 'package:apple_market/theme/components_themes/button_themes.dart';
 import 'package:apple_market/theme/components_themes/contents_themes.dart';
 import 'package:apple_market/theme/components_themes/dialog_themes.dart';
@@ -36,11 +36,11 @@ class AppTheme {
   }
 
   static ThemeData get darkTheme {
-    const colorScheme = ColorSchemes.lightColorScheme;
+    const colorScheme = ColorSchemes.darkColorScheme;
 
     return ThemeData(
       useMaterial3: true,
-      brightness: Brightness.light,
+      brightness: Brightness.dark,
       colorScheme: colorScheme,
       scaffoldBackgroundColor: colorScheme.surface,
       textTheme: AppTextTheme.buildTextTheme(

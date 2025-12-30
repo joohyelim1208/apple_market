@@ -26,6 +26,7 @@ class ContentsThemes {
   static AppBarThemeData appBarTheme(ColorScheme colors) {
     return AppBarThemeData(
       backgroundColor: Colors.transparent,
+      foregroundColor: colors.onSurface,
       centerTitle: true,
       titleTextStyle: TextStyle(
         fontSize: 35,
