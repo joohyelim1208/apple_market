@@ -1,4 +1,3 @@
-import 'package:apple_market/theme/tokens/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -6,8 +5,8 @@ class ButtonThemes {
   static ElevatedButtonThemeData elevatedButtonTheme(ColorScheme colors) {
     return ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
-        backgroundColor: colors.primary,
-        foregroundColor: colors.onPrimary,
+        backgroundColor: colors.secondary,
+        foregroundColor: colors.onSecondary,
         shape: StadiumBorder(),
         textStyle: GoogleFonts.notoSans(fontSize: 16),
       ),
@@ -18,9 +17,9 @@ class ButtonThemes {
     ColorScheme colors,
   ) {
     return FloatingActionButtonThemeData(
-      backgroundColor: colors.primary,
-      foregroundColor: colors.onPrimary,
-      elevation: 1,
+      backgroundColor: colors.secondary,
+      foregroundColor: colors.onSecondary,
+      elevation: 5,
       iconSize: 24,
       shape: CircleBorder(),
     );
