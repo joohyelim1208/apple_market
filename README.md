@@ -1,4 +1,3 @@
 251229
 1. 이니셜페이지 제작
 정해진 데이터 적용하기
-Text("test", style: Theme.of(context).textTheme.bodyMedium),
