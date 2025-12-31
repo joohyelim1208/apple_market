@@ -167,24 +167,23 @@ Widget _productListRow(Item item, BuildContext context) {
     );
   }
 
-  return InkWell(
+  return GestureDetector(
     onTap: () {
+      // DetailPage로 이동
       Navigator.push(
         context,
-        MaterialPageRoute(
-          builder: (context) => DetailPage(),
-        ), // DetailPage로 연결시킴
+        MaterialPageRoute(builder: (context) => DetailPage(item: item)),
       );
     },
     child: Padding(
       padding: const EdgeInsets.symmetric(vertical: 12),
       child: Row(
+        // 좌측에서 시작
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ClipRRect(
-            borderRadius: BorderRadius.circular(
-              12,
-            ), // 사진이 들어갈 사이즈와 둥근 모서리를 지정하고, 이미지는 컨테이너 안에 꽉 차게끔 한다.
+            // 사진이 들어갈 사이즈와 둥근 모서리를 지정하고, 이미지는 컨테이너 안에 꽉 차게끔 한다.
+            borderRadius: BorderRadius.circular(12),
             child: Container(
               width: 100,
               height: 100,
@@ -198,8 +197,7 @@ Widget _productListRow(Item item, BuildContext context) {
             ),
           ),
           // 텍스트 정보가 들어갈 곳
-          // sizedBox와 같은 것.
-          AppSpacing.w12,
+          SizedBox(width: 16),
           Expanded(
             child: SizedBox(
               height: 100,
@@ -212,7 +210,7 @@ Widget _productListRow(Item item, BuildContext context) {
                     item.name,
                     style: Theme.of(context).textTheme.bodyMedium,
                     // 제목은 최대 2줄 까지만
-                    maxLines: 1,
+                    maxLines: 2,
                     // 말줄임표 생략표시기능
                     overflow: TextOverflow.ellipsis,
                     //
@@ -225,7 +223,7 @@ Widget _productListRow(Item item, BuildContext context) {
                       Text(
                         // "${item.price}원", 소수점 없애주는 함수 적용해주기
                         "${formatPrice(item.price)}원",
-                        style: Theme.of(context).textTheme.titleLarge,
+                        style: Theme.of(context).textTheme.headlineLarge,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
