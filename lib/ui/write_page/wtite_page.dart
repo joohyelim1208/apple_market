@@ -1,6 +1,7 @@
 import 'package:apple_market/entity/item.dart';
 import 'package:apple_market/theme/tokens/app_spacing.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class WritePage extends StatefulWidget {
   const WritePage({super.key});
@@ -10,17 +11,36 @@ class WritePage extends StatefulWidget {
 }
 
 class _WritePageState extends State<WritePage> {
+  //수량 초가값및 텍스트 컨트롤러 상품명,가격,세부사항
+
+  List<Item> items = [];
   int quantity = 1;
   final TextEditingController nameController = TextEditingController();
   final TextEditingController priceController = TextEditingController();
   final TextEditingController detailController = TextEditingController();
-
+  //입력하지않을때
   bool isTitleValid = false;
   bool isPriceValid = false;
   bool isDetailValid = false;
+  //사진아이콘 선택시
+  List<String> myImages = [
+    'assets/images/airpods.webp',
+    'assets/images/ipad.webp',
+    'assets/images/AppleMarketLogo.webp',
+  ];
 
+  List<String> selectorImages = [];
+  //함수에 인데스를 넣어 인트인걸 인지 시킴
+  void addimages(int index) {
+    setState(() {
+      selectorImages.add(myImages[index]);
+    });
+  }
+
+  //입력할때 마다 그림을 그러주는 함수
   @override
   void initState() {
+    super.initState();
     nameController.addListener(() {
       if (nameController.text.trim().isEmpty) {
         setState(() {
@@ -76,11 +96,70 @@ class _WritePageState extends State<WritePage> {
           spacing: 8,
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
+
           children: [
-            IconButton(
-              icon: const Icon(Icons.add_a_photo_outlined),
-              onPressed: () {},
+            //사진추가버튼
+            Row(
+              children: [
+                if (selectorImages.length < 10)
+                  IconButton(
+                    icon: const Icon(Icons.add_a_photo_outlined),
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return SizedBox(
+                            height: 200,
+                            child: ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: myImages.length, // 갖고 있는 전체 이미지 개수
+                              itemBuilder: (context, index) {
+                                return GestureDetector(
+                                  onTap: () {
+                                    // 2. 여기서 선택한 번호(index)를 함수에 던져줌
+                                    addimages(index);
+                                    Navigator.pop(context); // 창 닫기
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Image.asset(
+                                      myImages[index],
+                                      width: 200,
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                          );
+                        },
+                      );
+                    },
+                  ),
+                Text("${selectorImages.length}/10"),
+                Expanded(
+                  // Row 안에서 남은 공간을 확보
+                  child: SizedBox(
+                    height: 100, // 사진들이 그려질 높이 제한
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal, // 가로 스크롤 설정
+                      itemCount: selectorImages.length, // 리스트의 개수만큼 생성
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.all(4.0),
+                          child: Image.asset(
+                            selectorImages[index], // 리스트에서 번호(index)에 맞는 사진 꺼내기
+                            width: 100,
+                            height: 100,
+                            fit: BoxFit.cover,
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ),
+              ],
             ),
+
             Text("상품명", style: Theme.of(context).textTheme.titleMedium),
 
             TextField(
@@ -96,8 +175,12 @@ class _WritePageState extends State<WritePage> {
                 Expanded(
                   child: TextField(
                     controller: priceController,
+                    //키보드 숫자만 나오게 해줍니다
+                    keyboardType: TextInputType.number,
+                    //키보드 입력시 숫자만 나오는 필터
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
 
-                    decoration: InputDecoration(hintText: '가격명을 입력하세요'),
+                    decoration: InputDecoration(hintText: '가격을 입력하세요'),
                   ),
                 ),
                 AppSpacing.w12,
@@ -135,71 +218,43 @@ class _WritePageState extends State<WritePage> {
               decoration: InputDecoration(hintText: '상세정보를 자세히 입력하세요'),
             ),
 
-            if (isTitleValid && isPriceValid && isDetailValid)
-              GestureDetector(
-                onTap: () {
+            if (isTitleValid &&
+                isPriceValid &&
+                isDetailValid &&
+                selectorImages.isNotEmpty)
+              ElevatedButton(
+                onPressed: () {
                   final item = Item(
                     des: detailController.text,
                     name: nameController.text,
                     price: double.tryParse(priceController.text) ?? 0.0,
                     quantity: quantity,
+                    imageUrl: selectorImages[0],
                   );
-
                   Navigator.pop(context, item);
                 },
-
-                child: Container(
-                  width: double.infinity,
-                  height: 52,
-                  margin: const EdgeInsets.symmetric(vertical: 20),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFFF9E9E),
+                style: ElevatedButton.styleFrom(
+                  fixedSize: const Size(370, 50),
+                  shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
-                      Icon(Icons.check, color: Colors.white),
-                      SizedBox(width: 8),
-                      Text(
-                        "등록하기",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
                 ),
+                child: Text("등록하기"),
               )
             else
-              GestureDetector(
-                onTap: () {
+              ElevatedButton(
+                onPressed: () {
                   null;
                 },
-                child: Container(
-                  width: double.infinity,
-                  height: 52,
-                  margin: const EdgeInsets.symmetric(vertical: 20),
-                  decoration: BoxDecoration(
-                    color: Colors.grey,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.grey,
+                  foregroundColor: Colors.white,
+                  fixedSize: const Size(370, 50),
+                  shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
-                      Icon(Icons.check, color: Colors.white),
-                      SizedBox(width: 8),
-                      Text(
-                        "등록하기",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
                 ),
+                child: Text("등록하기"),
               ),
           ],
         ),

@@ -18,13 +18,7 @@ class DetailPage extends StatelessWidget {
           },
         ),
       ),
-      body: Column(
-        children: [
-          Container(
-            
-          )
-        ],
-      ),
+      body: Column(children: [Container()]),
     );
   }
 }
