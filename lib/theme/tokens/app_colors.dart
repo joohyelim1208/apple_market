@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 class AppColors {
   // Light Theme
   static const Color lightPrimary = Colors.black;
-  static const Color lightSecondary = Color(0xFFFF968A);
-  static const Color lightSurface = Color(0xFFCAC5BF);
+  static const Color lightSecondary = Color(0xFFFFC5BF);
+  static const Color lightSurface = Color(0xFFD4D4D4);
   static const Color lightSurfaceVariant = Color(0xFFF3F4F6);
   static const Color lightText = Colors.black;
   static const Color lightError = Colors.black54;

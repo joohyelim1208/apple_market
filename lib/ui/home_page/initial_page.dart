@@ -142,6 +142,7 @@ class _InitialPageState extends State<InitialPage> {
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           final item = await fetchDataFromWritePage(context);
+
           if (item != null) {
             setState(() {
               items.add(item);
@@ -176,53 +177,76 @@ Widget _productListRow(Item item, BuildContext context) {
     )}원";
   }
 
-  // 디자인에 맞춘 리스트를 만들때는 Row Column쓰는게 낫다
-  // 원하는 디자인으로 리스트타일을 맞춘거라 기종에 따라 출력되는 부분이 다를 수 있다.
-  // Column을 사용했다가 ListTile을 사용하는 방식을 사용해보았습니다. 리딩 부분의 문제가 있어서 해결하는 방법도 배웠습니다.
-  return ListTile(
-    style: ListTileStyle.list,
-    // contentPadding: Theme.of(context).listTileTheme.contentPadding,
-    tileColor: Theme.of(context).listTileTheme.tileColor,
+  return InkWell(
     onTap: () {
       Navigator.push(
         context,
         MaterialPageRoute(
           builder: (context) => DetailPage(),
-        ), // 아직 브랜치 합치기 전이라 비워둠
+        ), // DetailPage로 연결시킴
       );
     },
-    // 강제로 늘림
-    leading: Transform.scale(
-      // 높이값 2배 곱한 것
-      scale: 2,
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(12),
-        child: item.imageUrl != null
-            ? Image.asset(
+    child: Padding(
+      padding: const EdgeInsets.symmetric(vertical: 12),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(
+              12,
+            ), // 사진이 들어갈 사이즈와 둥근 모서리를 지정하고, 이미지는 컨테이너 안에 꽉 차게끔 한다.
+            child: Container(
+              width: 100,
+              height: 100,
+              color: Colors.grey[200],
+              child: Image.asset(
+                // entity 경로로 바꿔주면 해결됨. 변수명 변경해서
+                // String 타입의 image를 위젯으로 표시하는 방법
                 item.imageUrl!,
                 // 리스트타일 ClipRRect 높이가 56 고정값이라 강제로 100 사이즈를 만들기 위해 이미지의 사이즈를 50으로 잡고 2배 스케일을 적용하였다.
                 width: 50,
                 height: 50,
                 fit: BoxFit.cover,
-                // 이미지가 없을 시 예외처리
-                errorBuilder: (context, error, stackTrace) =>
-                    _imagePlaceholder(),
-              )
-            : _imagePlaceholder(),
-      ),
-    ),
-
-    title: Row(
-      children: [
-        SizedBox(width: 20),
-        Expanded(
-          //
-          child: Text(
-            item.name,
-            style: Theme.of(context).textTheme.bodyMedium,
-            maxLines: 2,
-            softWrap: true,
-            overflow: TextOverflow.ellipsis,
+              ),
+            ),
+          ),
+          // 텍스트 정보가 들어갈 곳
+          // sizedBox와 같은 것.
+          AppSpacing.w12,
+          Expanded(
+            child: SizedBox(
+              height: 100,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // 리스트에 쓰이는 텍스트의 설정
+                  Text(
+                    //
+                    item.name,
+                    style: Theme.of(context).textTheme.bodyMedium,
+                    // 제목은 최대 2줄 까지만
+                    maxLines: 1,
+                    // 말줄임표 생략표시기능
+                    overflow: TextOverflow.ellipsis,
+                    //
+                  ),
+                  const Spacer(),
+                  Row(
+                    // 문자열 제일 오른쪽 하단. 가격표
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Text(
+                        // "${item.price}원", 소수점 없애주는 함수 적용해주기
+                        "${formatPrice(item.price)}원",
+                        style: Theme.of(context).textTheme.titleLarge,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
           ),
         ),
       ],
