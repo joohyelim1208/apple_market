@@ -21,6 +21,7 @@ class _WritePageState extends State<WritePage> {
 
   @override
   void initState() {
+    super.initState();
     nameController.addListener(() {
       if (nameController.text.trim().isEmpty) {
         setState(() {

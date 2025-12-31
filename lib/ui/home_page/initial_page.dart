@@ -1,11 +1,9 @@
 import 'package:apple_market/entity/item.dart';
 import 'package:apple_market/features/fetch_data_from_write_page.dart';
-import 'package:apple_market/theme/tokens/app_spacing.dart';
 import 'package:apple_market/ui/detail_page/detail_page.dart';
 import 'package:flutter/material.dart';
 
-// body에 List가 있을 때, 없을 때 로고만 있는 상태를 생각해서 구성
-//
+/// 상품 리스트가 없을 땐 로고만 보인다.
 class InitialPage extends StatefulWidget {
   const InitialPage({super.key});
 
@@ -14,96 +12,108 @@ class InitialPage extends StatefulWidget {
 }
 
 class _InitialPageState extends State<InitialPage> {
-  // 임시 데이터 리스트. 없으면 로고만 보임.
-  // 타이틀 변수가 빠짐
-  // 이미지 객체를 만들어서 넣어야 한다. 아니면 이미지를 String으로
+  // 예외처리
+  double price = 0;
+  String priceText = '';
+
   final List<Item> items = [
     Item(
-      // 이미지를 위젯으로 불러오는 구조
       imageUrl: "assets/images/airpods.webp",
-      name: "맥북 에어 미개봉 새상품 입니다.",
-      price: 500000,
-      // 내용은 넣지 않아도 됨
+      name: "에어팟 미개봉 새상품 입니다.",
+      price: 120000,
       des: "",
       quantity: 1,
     ),
     Item(
       imageUrl: "assets/images/iphone.webp",
-      des: "",
       name: "아이폰 판매합니다",
       price: 105000,
+      des: "",
       quantity: 1,
     ),
     Item(
       imageUrl: "assets/images/ipad.webp",
-      des: "",
       name: "중고 아이패드",
       price: 120000,
+      des: "",
       quantity: 1,
     ),
     Item(
       imageUrl: "assets/images/mac.webp",
-      des: "",
       name: "최신형 맥북 에어 입니다.",
       price: 1600000,
+      des: "",
       quantity: 1,
     ),
     Item(
       imageUrl: "assets/images/vision.webp",
-      des: "",
       name: "비젼프로 한번 써보세요",
       price: 99000,
+      des: "",
       quantity: 1,
     ),
     Item(
       imageUrl: "assets/images/watch.webp",
-      des: "",
       name: "방수기능 좋은 에어 워치",
       price: 80000,
+      des: "",
       quantity: 1,
     ),
     Item(
-      // 이미지를 위젯으로 불러오는 구조
       imageUrl: "assets/images/airpods.webp",
       name: "맥북 에어 미개봉 새상품 입니다.",
       price: 500000,
-      // 내용은 넣지 않아도 됨
       des: "",
       quantity: 1,
     ),
     Item(
       imageUrl: "assets/images/iphone.webp",
-      des: "",
       name: "아이폰 판매합니다",
       price: 105000,
+      des: "",
       quantity: 1,
     ),
     Item(
       imageUrl: "assets/images/ipad.webp",
-      des: "",
       name: "중고 아이패드",
       price: 120000,
+      des: "",
       quantity: 1,
     ),
     Item(
       imageUrl: "assets/images/mac.webp",
-      des: "",
       name: "최신형 맥북 에어 입니다.",
       price: 1600000,
+      des: "",
       quantity: 1,
     ),
     Item(
       imageUrl: "assets/images/vision.webp",
-      des: "",
       name: "비젼프로 한번 써보세요",
       price: 99000,
+      des: "",
       quantity: 1,
     ),
     Item(
       imageUrl: "assets/images/watch.webp",
-      des: "",
       name: "방수기능 좋은 에어 워치",
       price: 80000,
+      des: "",
+      quantity: 1,
+    ),
+    // 예외 처리
+    Item(
+      imageUrl: "assets/images/airpods.webp",
+      name: "중고 맥북 무료 나눔합니다!",
+      price: 0,
+      des: "",
+      quantity: 1,
+    ),
+    Item(
+      imageUrl: null,
+      name: "등록된 상품이 없습니다.", // 팝업창 띄우기
+      price: -1,
+      des: "",
       quantity: 1,
     ),
   ];
@@ -111,43 +121,32 @@ class _InitialPageState extends State<InitialPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body:
-          // 데이터가 없을 때 중앙에 로고를 표시
-          items.isEmpty
+      body: items.isEmpty
           ? Center(
               child: Image.asset(
                 'assets/images/AppleMarketLogo.webp',
                 width: 150,
               ),
             )
-          // 리스트 아이템 사이에 구분선이나 간격 추가
           : ListView.separated(
               padding: const EdgeInsets.symmetric(horizontal: 16),
-              // 아이템 리스트 만큼 출력해줌
               itemCount: items.length,
               itemBuilder: (BuildContext context, int index) {
                 final item = items[index];
-                // 상품리스트에 들어갈 정보를 따로 만들어서 불러오기
-                return _productListRow(item, context);
+                return _productListRow(item, context); // 상품리스트 정보 불러오기
               },
-              // 구분선
               separatorBuilder: (BuildContext context, int index) {
-                return const Divider();
+                return const Divider(); // 리스트 별 구분선
               },
             ),
-      // 플로팅 액션 버튼. 사이즈. 색상은 지정된 테마
-      // writePage로 전환
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          // 작성페이지로 넘어감. 아이템이 없으면 동작하지 않음
           final item = await fetchDataFromWritePage(context);
           if (item != null) {
-            // 데이터가 추가되었음을 알리고 화면을 갱신한다.
             setState(() {
               items.add(item);
             });
           }
-
           return;
         },
         child: Icon(Icons.add),
@@ -156,87 +155,97 @@ class _InitialPageState extends State<InitialPage> {
   }
 }
 
-// 상품 리스트
+/// 상품 리스트
+@override
 Widget _productListRow(Item item, BuildContext context) {
-  // 가격 소수점 없애고'toInt', 문자열로 변환'toString', 정규식으로 1000단위마다 콤마 추가하기
-  String formatPrice(double price) {
-    return price.toInt().toString().replaceAllMapped(
+  // 3가지 예외처리. 1. 가격이 있을 때 / 2. 무료나눔 = 0 / 3. 등록된 상품이 없을 때 -1
+  String formatPrice(dynamic price) {
+    // 1. 등록된 상품이 없을 때
+    if (price == -1) {
+      return "가격 미정";
+      // 2. 무료나눔 일 때
+    } else if (price == 0) {
+      return "무료 나눔";
+    }
+    // 3. 정상 가격일 때. 더블타입인 int의 소수점 제거
+    String prices = price.toInt().toString();
+    return "${prices.replaceAllMapped(
+      //
       RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
       (Match m) => '${m[1]},',
-    );
+    )}원";
   }
 
-  // 페이지 전환을 위해 네이게이터 사용
-  return InkWell(
+  // 디자인에 맞춘 리스트를 만들때는 Row Column쓰는게 낫다
+  // 원하는 디자인으로 리스트타일을 맞춘거라 기종에 따라 출력되는 부분이 다를 수 있다.
+  // Column을 사용했다가 ListTile을 사용하는 방식을 사용해보았습니다. 리딩 부분의 문제가 있어서 해결하는 방법도 배웠습니다.
+  return ListTile(
+    style: ListTileStyle.list,
+    // contentPadding: Theme.of(context).listTileTheme.contentPadding,
+    tileColor: Theme.of(context).listTileTheme.tileColor,
     onTap: () {
       Navigator.push(
         context,
-        // DetailPage로 연결시킴
-        MaterialPageRoute(builder: (context) => DetailPage()),
+        MaterialPageRoute(
+          builder: (context) => DetailPage(),
+        ), // 아직 브랜치 합치기 전이라 비워둠
       );
     },
-    // 패딩부분부터 네이게이터 안으로 가지고 옴
-    child: Padding(
-      padding: const EdgeInsets.symmetric(vertical: 12),
-      child: Row(
-        // 좌측에서 시작
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          ClipRRect(
-            // 사진이 들어갈 사이즈와 둥근 모서리를 지정하고, 이미지는 컨테이너 안에 꽉 차게끔 한다.
-            borderRadius: BorderRadius.circular(12),
-            child: Container(
-              width: 100,
-              height: 100,
-              color: Colors.grey[200],
-              child: Image.asset(
-                // entity 경로로 바꿔주면 해결됨. 변수명 변경해서
-                // String 타입의 image를 위젯으로 표시하는 방법
+    // 강제로 늘림
+    leading: Transform.scale(
+      // 높이값 2배 곱한 것
+      scale: 2,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(12),
+        child: item.imageUrl != null
+            ? Image.asset(
                 item.imageUrl!,
+                // 리스트타일 ClipRRect 높이가 56 고정값이라 강제로 100 사이즈를 만들기 위해 이미지의 사이즈를 50으로 잡고 2배 스케일을 적용하였다.
+                width: 50,
+                height: 50,
                 fit: BoxFit.cover,
-              ),
-            ),
-          ),
-          // 텍스트 정보가 들어갈 곳
-          // sizedBox와 같은 것.
-          AppSpacing.w12,
-          Expanded(
-            child: SizedBox(
-              height: 100,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // 리스트에 쓰이는 텍스트의 설정
-                  Text(
-                    //
-                    item.name,
-                    style: Theme.of(context).textTheme.bodyMedium,
-                    // 제목은 최대 2줄 까지만
-                    maxLines: 2,
-                    // 말줄임표 생략표시기능
-                    overflow: TextOverflow.ellipsis,
-                    //
-                  ),
-                  const Spacer(),
-                  Row(
-                    // 문자열 제일 오른쪽 하단. 가격표
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Text(
-                        // "${item.price}원", 소수점 없애주는 함수 적용해주기
-                        "${formatPrice(item.price)}원",
-                        style: Theme.of(context).textTheme.titleLarge,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
+                // 이미지가 없을 시 예외처리
+                errorBuilder: (context, error, stackTrace) =>
+                    _imagePlaceholder(),
+              )
+            : _imagePlaceholder(),
       ),
     ),
+
+    title: Row(
+      children: [
+        SizedBox(width: 20),
+        Expanded(
+          //
+          child: Text(
+            item.name,
+            style: Theme.of(context).textTheme.bodyMedium,
+            maxLines: 2,
+            softWrap: true,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
+      ],
+    ),
+    subtitle: Padding(
+      padding: const EdgeInsets.only(top: 10),
+      child: Align(
+        alignment: Alignment.bottomRight,
+        child: Text(
+          formatPrice(item.price),
+          style: Theme.of(context).textTheme.titleLarge,
+        ),
+      ),
+    ),
+  );
+}
+
+// 이미지가 없을 때 예외처리 출력되는 부분
+Widget _imagePlaceholder() {
+  return Container(
+    width: 100,
+    height: 100,
+    color: Colors.grey[200],
+    child: const Icon(Icons.image_not_supported, color: Colors.grey),
   );
 }
