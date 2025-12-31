@@ -7,7 +7,9 @@ class ButtonThemes {
       style: ElevatedButton.styleFrom(
         backgroundColor: colors.secondary,
         foregroundColor: colors.onSecondary,
-        shape: StadiumBorder(),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadiusGeometry.circular(12),
+        ),
         textStyle: GoogleFonts.notoSans(fontSize: 16),
       ),
     );

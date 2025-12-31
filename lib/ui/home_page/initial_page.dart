@@ -166,25 +166,24 @@ Widget _productListRow(Item item, BuildContext context) {
     );
   }
 
-  // 페이지 전환을 위해 네이게이터 사용
   return InkWell(
     onTap: () {
       Navigator.push(
         context,
-        // DetailPage로 연결시킴
-        MaterialPageRoute(builder: (context) => DetailPage()),
+        MaterialPageRoute(
+          builder: (context) => DetailPage(),
+        ), // DetailPage로 연결시킴
       );
     },
-    // 패딩부분부터 네이게이터 안으로 가지고 옴
     child: Padding(
       padding: const EdgeInsets.symmetric(vertical: 12),
       child: Row(
-        // 좌측에서 시작
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ClipRRect(
-            // 사진이 들어갈 사이즈와 둥근 모서리를 지정하고, 이미지는 컨테이너 안에 꽉 차게끔 한다.
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(
+              12,
+            ), // 사진이 들어갈 사이즈와 둥근 모서리를 지정하고, 이미지는 컨테이너 안에 꽉 차게끔 한다.
             child: Container(
               width: 100,
               height: 100,
@@ -212,7 +211,7 @@ Widget _productListRow(Item item, BuildContext context) {
                     item.name,
                     style: Theme.of(context).textTheme.bodyMedium,
                     // 제목은 최대 2줄 까지만
-                    maxLines: 2,
+                    maxLines: 1,
                     // 말줄임표 생략표시기능
                     overflow: TextOverflow.ellipsis,
                     //

@@ -33,7 +33,6 @@ class ContentsThemes {
         fontWeight: FontWeight.bold,
         fontFamily: "Dongle",
       ),
-      iconTheme: IconThemeData(color: colors.onSurface),
     );
   }
 }

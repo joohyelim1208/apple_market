@@ -21,6 +21,7 @@ class _WritePageState extends State<WritePage> {
 
   @override
   void initState() {
+    super.initState();
     nameController.addListener(() {
       if (nameController.text.trim().isEmpty) {
         setState(() {
@@ -190,13 +191,7 @@ class _WritePageState extends State<WritePage> {
                     children: const [
                       Icon(Icons.check, color: Colors.white),
                       SizedBox(width: 8),
-                      Text(
-                        "등록하기",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
+                      Text("등록하기"),
                     ],
                   ),
                 ),

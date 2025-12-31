@@ -1,4 +1,3 @@
-import 'package:apple_market/ui/cart_page/cart_page.dart';
 import 'package:flutter/material.dart';
 
 class MainAppBar extends StatefulWidget implements PreferredSizeWidget {
@@ -26,15 +25,15 @@ class _MainAppBarState extends State<MainAppBar> {
           //
         ),
         // 카트 아이콘을 누르면 장바구니 페이지로 이동
-        IconButton(
-          onPressed: () async {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => CartPage()),
-            );
-          },
-          icon: Icon(Icons.shopping_cart),
-        ),
+        // IconButton(
+        //   onPressed: () async {
+        //     Navigator.push(
+        //       context,
+        //       MaterialPageRoute(builder: (context) => CartPage()),
+        //     );
+        //   },
+        //   icon: Icon(Icons.shopping_cart),
+        // ),
       ],
     );
   }
