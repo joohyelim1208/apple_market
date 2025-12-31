@@ -45,7 +45,6 @@ class _WritePageState extends State<WritePage> {
               IconButton(
                 icon: const Icon(Icons.add_a_photo_outlined),
                 onPressed: () {
-                  print("사진 추가 클릭됨");
                 },
               ),
               Text("상품명", style: Theme.of(context).textTheme.titleMedium),

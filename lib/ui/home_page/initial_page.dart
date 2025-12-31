@@ -1,5 +1,6 @@
 import 'package:apple_market/entity/item.dart';
 import 'package:apple_market/features/fetch_data_from_write_page.dart';
+import 'package:apple_market/ui/detail_page/detail_page.dart';
 import 'package:flutter/material.dart';
 
 // body에 List가 있을 때, 없을 때 로고만 있는 상태를 생각해서 구성
@@ -171,12 +172,20 @@ Widget _productListRow(Item item, BuildContext context) {
     );
   }
 
-  return Padding(
-    padding: const EdgeInsets.symmetric(vertical: 12),
-    child: Row(
-      // 좌측에서 시작
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
+  return GestureDetector(
+    onTap: () {
+      // DetailPage로 이동
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => DetailPage(item: item)),
+      );
+    },
+    child: Padding(
+      padding: const EdgeInsets.symmetric(vertical: 12),
+      child: Row(
+        // 좌측에서 시작
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
         ClipRRect(
           // 사진이 들어갈 사이즈와 둥근 모서리를 지정하고, 이미지는 컨테이너 안에 꽉 차게끔 한다.
           borderRadius: BorderRadius.circular(12),
@@ -195,7 +204,7 @@ Widget _productListRow(Item item, BuildContext context) {
         // 텍스트 정보가 들어갈 곳
         SizedBox(width: 16),
         Expanded(
-          child: Container(
+          child: SizedBox(
             height: 100,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -231,5 +240,6 @@ Widget _productListRow(Item item, BuildContext context) {
         ),
       ],
     ),
+  )
   );
 }
