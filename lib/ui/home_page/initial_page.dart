@@ -141,6 +141,7 @@ class _InitialPageState extends State<InitialPage> {
         onPressed: () async {
           // 작성페이지로 넘어감. 아이템이 없으면 동작하지 않음
           final item = await fetchDataFromWritePage(context);
+
           if (item != null) {
             // 데이터가 추가되었음을 알리고 화면을 갱신한다.
             setState(() {

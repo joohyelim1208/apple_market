@@ -8,7 +8,7 @@ Future<Item?> fetchDataFromWritePage(BuildContext context) async {
     MaterialPageRoute(builder: (context) => WritePage()),
   );
 
-  if (result! is Item || result == null || !context.mounted) {
+  if (result is! Item || !context.mounted) {
     return null;
   }
 
