@@ -4,8 +4,18 @@ import 'package:apple_market/ui/detail_page/detail_page.dart';
 import 'package:flutter/material.dart';
 
 /// 상품 리스트
-@override
-Widget productListRow(Item item, BuildContext context) {
+class ProductListRow extends StatefulWidget {
+  const ProductListRow({
+    super.key,
+    required this.idx,
+    required this.itemList,
+    required this.cartList,
+  });
+
+  final int idx;
+  final List<Item> cartList;
+  final List<Item> itemList;
+
   // 2가지 예외처리. 1. 가격이 있을 때 / 2. 무료나눔 = 0
   String formatPrice(dynamic price) {
     if (price == 0) {
@@ -20,49 +30,62 @@ Widget productListRow(Item item, BuildContext context) {
     )}원";
   }
 
-  return ListTile(
-    style: ListTileStyle.list,
-    // contentPadding: Theme.of(context).listTileTheme.contentPadding,
-    tileColor: Theme.of(context).listTileTheme.tileColor,
-    onTap: () {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => DetailPage(item: item)),
-      );
-    },
-    leading: SizedBox(
-      width: 50,
-      height: 50,
-      child: Transform.scale(
-        // 위젯 적용. 리스트타일에 값을 주기 위해 스케일 값이 별도 들어감
-        scale: 2,
-        child: ImageDisplayWidget(item: item),
-      ),
-    ),
+  @override
+  State<ProductListRow> createState() => _ProductListRowState();
+}
 
-    title: Row(
-      children: [
-        SizedBox(width: 20),
-        Expanded(
+class _ProductListRowState extends State<ProductListRow> {
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      style: ListTileStyle.list,
+      // contentPadding: Theme.of(context).listTileTheme.contentPadding,
+      tileColor: Theme.of(context).listTileTheme.tileColor,
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => DetailPage(
+              item: widget.itemList[widget.idx],
+              cartList: widget.cartList,
+            ),
+          ),
+        );
+      },
+      leading: SizedBox(
+        width: 50,
+        height: 50,
+        child: Transform.scale(
+          // 위젯 적용. 리스트타일에 값을 주기 위해 스케일 값이 별도 들어감
+          scale: 2,
+          child: ImageDisplayWidget(item: widget.itemList[widget.idx]),
+        ),
+      ),
+
+      title: Row(
+        children: [
+          SizedBox(width: 20),
+          Expanded(
+            child: Text(
+              widget.itemList[widget.idx].name,
+              style: Theme.of(context).textTheme.bodyMedium,
+              maxLines: 2,
+              softWrap: true,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+        ],
+      ),
+      subtitle: Padding(
+        padding: const EdgeInsets.only(top: 10),
+        child: Align(
+          alignment: Alignment.bottomRight,
           child: Text(
-            item.name,
-            style: Theme.of(context).textTheme.bodyMedium,
-            maxLines: 2,
-            softWrap: true,
-            overflow: TextOverflow.ellipsis,
+            widget.formatPrice(widget.itemList[widget.idx].price),
+            style: Theme.of(context).textTheme.titleLarge,
           ),
         ),
-      ],
-    ),
-    subtitle: Padding(
-      padding: const EdgeInsets.only(top: 10),
-      child: Align(
-        alignment: Alignment.bottomRight,
-        child: Text(
-          formatPrice(item.price),
-          style: Theme.of(context).textTheme.titleLarge,
-        ),
       ),
-    ),
-  );
+    );
+  }
 }

@@ -109,7 +109,7 @@ class _DetailPageBottomNavigationBarState
                 );
                 // findIndex (= 내가 찾고 있는 아이템 번호)
                 // findIndex가 -1이 아니라면 (= 내가 찾는 상품이 장바구니에 있다면)
-                if (findIndex != -1) { 
+                if (findIndex != -1) {
                   setState(() {
                     // copyWith (= 다른 객체 그대로 사용, 특정 값만 바꿀 수 있음)
                     // 가격: cartList의 번호의 가격 + 가격
@@ -117,7 +117,7 @@ class _DetailPageBottomNavigationBarState
                       quantity: cartList[findIndex].quantity + count,
                     );
                   });
-                } 
+                }
                 // findIndex가 -1이라면 (= 내가 찾는 상품이 -1개임, 장바구니에 없음)
                 // newItem을 선택한 수량에 맞게 장바구니에 담기
                 else {

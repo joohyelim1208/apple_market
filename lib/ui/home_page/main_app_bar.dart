@@ -1,12 +1,13 @@
 import 'package:apple_market/entity/item.dart';
-import 'package:apple_market/ui/cart_page/cart_page.dart';
+import 'package:apple_market/features/fetch_data_from_cart_page.dart';
 import 'package:flutter/material.dart';
 
 class MainAppBar extends StatefulWidget implements PreferredSizeWidget {
   // 부모에게서 카트리스트를 전달받음
   final List<Item> cartList;
+  final Function(List<Item>) onchange;
 
-  const MainAppBar({super.key, required this.cartList});
+  const MainAppBar({super.key, required this.cartList, required this.onchange});
 
   @override
   State<MainAppBar> createState() => _MainAppBarState();
@@ -31,14 +32,18 @@ class _MainAppBarState extends State<MainAppBar> {
         ),
         IconButton(
           onPressed: () async {
-            Navigator.push(
+            final result = await fetchDataFromCartPage(
               context,
-              MaterialPageRoute(
-                // 클래스에서 선언된 변수는 아래 클래스에서 사용할 때 반드시 앞에 위젯을 붙여야 한다!
-                builder: (context) => CartPage(cartList: widget.cartList),
-              ),
-            ).then((value) => setState(() {})); //장바구니에서 돌아왔을 때
+              widget.cartList,
+            );
+            if (result != null) {
+              setState(() {
+                widget.cartList.clear();
+                widget.cartList.addAll(result);
+              });
+            }
           },
+
           icon: Icon(Icons.shopping_cart),
         ),
       ],

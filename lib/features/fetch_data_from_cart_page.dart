@@ -2,7 +2,7 @@ import 'package:apple_market/entity/item.dart';
 import 'package:apple_market/ui/cart_page/cart_page.dart';
 import 'package:flutter/material.dart';
 
-Future<List<Item>?> fetchDataFromWritePage(
+Future<List<Item>?> fetchDataFromCartPage(
   BuildContext context,
   List<Item> cartList,
 ) async {
