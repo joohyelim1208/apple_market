@@ -13,7 +13,6 @@ class WritePage extends StatefulWidget {
 class _WritePageState extends State<WritePage> {
   //수량 초가값및 텍스트 컨트롤러 상품명,가격,세부사항
 
-  List<Item> items = [];
   int quantity = 1;
   final TextEditingController nameController = TextEditingController();
   final TextEditingController priceController = TextEditingController();
@@ -218,18 +217,18 @@ class _WritePageState extends State<WritePage> {
               decoration: InputDecoration(hintText: '상세정보를 자세히 입력하세요'),
             ),
 
-            if (isTitleValid &&
-                isPriceValid &&
-                isDetailValid &&
-                selectorImages.isNotEmpty)
+            if (isTitleValid && isPriceValid && isDetailValid)
               ElevatedButton(
                 onPressed: () {
+                  String? selectedImage = selectorImages.isNotEmpty
+                      ? selectorImages[0]
+                      : null;
                   final item = Item(
                     des: detailController.text,
                     name: nameController.text,
                     price: double.tryParse(priceController.text) ?? 0.0,
                     quantity: quantity,
-                    imageUrl: selectorImages[0],
+                    imageUrl: selectedImage,
                   );
                   Navigator.pop(context, item);
                 },
