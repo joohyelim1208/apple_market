@@ -1,5 +1,7 @@
-
+import 'package:apple_market/entity/item.dart';
 import 'package:apple_market/theme/app_theme.dart';
+import 'package:apple_market/ui/detail_page/detail_page.dart';
+import 'package:apple_market/ui/home_page/initial_page.dart';
 import 'package:flutter/material.dart';
 
 import 'ui/home_page/home_page.dart';
@@ -18,7 +20,7 @@ class MyApp extends StatelessWidget {
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       themeMode: ThemeMode.light,
-      // home: CartEmptyPage() 
+      // home: CartEmptyPage()
       home: HomePage(),
     );
   }
