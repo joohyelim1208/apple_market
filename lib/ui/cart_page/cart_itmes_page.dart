@@ -115,9 +115,6 @@ class _CartItmesPageState extends State<CartItmesPage> {
                                         if (quantityList[index] > 1 &&
                                             quantityList[index] != 0 &&
                                             quantityList[index] != -1) {
-                                          quantityList[index] =
-                                              quantityList[index] - 1;
-
                                           widget.cartList[index] = widget
                                               .cartList[index]
                                               .copyWith(
@@ -133,11 +130,14 @@ class _CartItmesPageState extends State<CartItmesPage> {
                                       });
                                     },
                                   ),
-                                ),
-                                Text(
-                                  priceList[index] != 0
-                                      ? "${(quantityList[index] * priceList[index]).toInt().toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')} 원"
-                                      : "무료 나눔",
+                                  Expanded(
+                                    child: AutoSizeText(
+                                      maxLines: 1,
+                                      priceList[index] != 0
+                                          ? "${(widget.cartList[index].quantity * widget.cartList[index].price).toInt().toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')} 원"
+                                          : "무료 나눔",
+                                    ),
+                                  ),
                                 ),
                               ],
                             ),
