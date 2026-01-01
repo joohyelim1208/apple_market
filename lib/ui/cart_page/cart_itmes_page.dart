@@ -6,9 +6,14 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 class CartItmesPage extends StatefulWidget {
-  const CartItmesPage({super.key, required this.cartList});
+  const CartItmesPage({
+    super.key,
+    required this.cartList,
+    required this.onItemDeleted,
+  });
 
   final List<Item> cartList;
+  final Function(int) onItemDeleted;
 
   @override
   State<CartItmesPage> createState() => _CartItmesPageState();
@@ -80,9 +85,7 @@ class _CartItmesPageState extends State<CartItmesPage> {
                                   ),
                                   IconButton(
                                     onPressed: () {
-                                      setState(() {
-                                        widget.cartList.removeAt(index);
-                                      });
+                                      widget.onItemDeleted(index);
                                     },
                                     icon: Icon(Icons.close),
                                   ),
@@ -142,7 +145,7 @@ class _CartItmesPageState extends State<CartItmesPage> {
                                     ),
                                   ),
                                   Text(
-                                    priceList[index] == 0
+                                    priceList[index] != 0
                                         ? "${(quantityList[index] * priceList[index]).toInt().toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')} 원"
                                         : "무료 나눔",
                                   ),

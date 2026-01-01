@@ -1,9 +1,7 @@
 import 'package:apple_market/entity/item.dart';
 import 'package:apple_market/theme/app_theme.dart';
-import 'package:apple_market/ui/detail_page/detail_page.dart';
-import 'package:apple_market/ui/home_page/initial_page.dart';
+import 'package:apple_market/ui/cart_page/cart_page.dart';
 import 'package:flutter/material.dart';
-
 import 'ui/home_page/home_page.dart';
 
 void main() {
@@ -21,7 +19,9 @@ class MyApp extends StatelessWidget {
       darkTheme: AppTheme.darkTheme,
       themeMode: ThemeMode.light,
       // home: CartEmptyPage()
-      home: HomePage(),
+      home: CartPage(
+        cartList: [Item(des: "des", name: "name", price: 0, quantity: 2)],
+      ),
     );
   }
 }
