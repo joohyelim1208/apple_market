@@ -20,7 +20,14 @@ class MyApp extends StatelessWidget {
       themeMode: ThemeMode.light,
       // home: CartEmptyPage()
       home: CartPage(
-        cartList: [Item(des: "des", name: "name", price: 0, quantity: 2)],
+        cartList: [
+          Item(
+            des: "des",
+            name: "iPhone 세상에서 가장 싸게 판매합니다.",
+            price: 1111000,
+            quantity: 3,
+          ),
+        ],
       ),
     );
   }
