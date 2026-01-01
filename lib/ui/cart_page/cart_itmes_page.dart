@@ -6,9 +6,14 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 class CartItmesPage extends StatefulWidget {
-  const CartItmesPage({super.key, required this.cartList});
+  const CartItmesPage({
+    super.key,
+    required this.cartList,
+    required this.onItemDeleted,
+  });
 
   final List<Item> cartList;
+  final Function(int) onItemDeleted;
 
   @override
   State<CartItmesPage> createState() => _CartItmesPageState();
@@ -71,9 +76,7 @@ class _CartItmesPageState extends State<CartItmesPage> {
                                 ),
                                 IconButton(
                                   onPressed: () {
-                                    setState(() {
-                                      widget.cartList.removeAt(index);
-                                    });
+                                    widget.onItemDeleted(index);
                                   },
                                   icon: Icon(Icons.close),
                                 ),
@@ -86,8 +89,9 @@ class _CartItmesPageState extends State<CartItmesPage> {
                                   child: QuantityControlWidget(
                                     quantity: widget.cartList[index].quantity,
                                     onIncrement: () {
-                                      if (widget.cartList[index].quantity <
-                                          max) {
+                                      if (quantityList[index] < max &&
+                                          quantityList[index] != 0 &&
+                                          quantityList[index] != -1) {
                                         setState(() {
                                           quantityList[index] =
                                               quantityList[index] + 1;
@@ -108,11 +112,9 @@ class _CartItmesPageState extends State<CartItmesPage> {
                                     },
                                     onDecrement: () {
                                       setState(() {
-                                        if (widget.cartList[index].quantity >
-                                            1) {
-                                          quantityList[index] =
-                                              quantityList[index] - 1;
-
+                                        if (quantityList[index] > 1 &&
+                                            quantityList[index] != 0 &&
+                                            quantityList[index] != -1) {
                                           widget.cartList[index] = widget
                                               .cartList[index]
                                               .copyWith(
@@ -128,9 +130,14 @@ class _CartItmesPageState extends State<CartItmesPage> {
                                       });
                                     },
                                   ),
-                                ),
-                                Text(
-                                  "${(quantityList[index] * priceList[index]).toInt().toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')} 원",
+                                  Expanded(
+                                    child: AutoSizeText(
+                                      maxLines: 1,
+                                      priceList[index] != 0
+                                          ? "${(widget.cartList[index].quantity * widget.cartList[index].price).toInt().toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')} 원"
+                                          : "무료 나눔",
+                                    ),
+                                  ),
                                 ),
                               ],
                             ),
