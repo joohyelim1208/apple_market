@@ -32,78 +32,70 @@ class _CartItmesPageState extends State<CartItmesPage> {
           previousValue + element.price * element.quantity,
     );
 
-    return PopScope(
-      canPop: false,
-      onPopInvokedWithResult: (didPop, result) {
-        if (didPop) return;
-        Navigator.pop(context, widget.cartList);
-      },
-      child: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          spacing: 10,
-          children: [
-            Expanded(
-              child: Container(
-                padding: EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: ListView.separated(
-                  separatorBuilder: (context, index) => Divider(),
-                  itemCount: widget.cartList.length,
-                  itemBuilder: (context, index) => SizedBox(
-                    height: 100,
-                    child: Row(
-                      spacing: 4,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        SizedBox(
-                          width: 100,
-                          height: 100,
-                          child: ImageDisplayWidget(
-                            item: widget.cartList[index],
-                          ),
-                        ),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Expanded(
-                                    child: AutoSizeText(
-                                      widget.cartList[index].name,
-                                      maxLines: 1,
-                                      minFontSize: 12,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                  ),
-                                  IconButton(
-                                    onPressed: () {
-                                      widget.onItemDeleted(index);
-                                    },
-                                    icon: Icon(Icons.close),
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                children: [
-                                  QuantityControlWidget(
+    return Padding(
+      padding: const EdgeInsets.all(20),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        spacing: 10,
+        children: [
+          Expanded(
+            child: Container(
+              padding: EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: ListView.separated(
+                separatorBuilder: (context, index) => Divider(),
+                itemCount: widget.cartList.length,
+                itemBuilder: (context, index) => SizedBox(
+                  height: 100,
+                  child: Row(
+                    spacing: 4,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      SizedBox(
+                        width: 100,
+                        height: 100,
+                        child: ImageDisplayWidget(item: widget.cartList[index]),
+                      ),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                AutoSizeText(
+                                  widget.cartList[index].name,
+                                  maxLines: 1,
+                                  minFontSize: 12,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                IconButton(
+                                  onPressed: () {
+                                    widget.onItemDeleted(index);
+                                  },
+                                  icon: Icon(Icons.close),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                Expanded(
+                                  child: QuantityControlWidget(
                                     quantity: widget.cartList[index].quantity,
                                     onIncrement: () {
                                       if (quantityList[index] < max &&
                                           quantityList[index] != 0 &&
                                           quantityList[index] != -1) {
                                         setState(() {
+                                          quantityList[index] =
+                                              quantityList[index] + 1;
+
                                           widget.cartList[index] = widget
                                               .cartList[index]
                                               .copyWith(
@@ -146,35 +138,35 @@ class _CartItmesPageState extends State<CartItmesPage> {
                                           : "무료 나눔",
                                     ),
                                   ),
-                                ],
-                              ),
-                            ],
-                          ),
+                                ),
+                              ],
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               ),
             ),
-            Text("최종합계"),
-            Container(
-              padding: EdgeInsets.only(right: 8),
-              alignment: Alignment.centerRight,
-              decoration: BoxDecoration(
-                color: Colors.grey,
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Text("${total.toInt()} 원"),
+          ),
+          Text("최종합계"),
+          Container(
+            padding: EdgeInsets.only(right: 8),
+            alignment: Alignment.centerRight,
+            decoration: BoxDecoration(
+              color: Colors.grey,
+              borderRadius: BorderRadius.circular(8),
             ),
-            ElevatedButton(
-              onPressed: () {},
-              child: Text("결제하기", style: TextStyle(color: Colors.white)),
-            ),
+            child: Text("${total.toInt()} 원"),
+          ),
+          ElevatedButton(
+            onPressed: () {},
+            child: Text("결제하기", style: TextStyle(color: Colors.white)),
+          ),
 
-            AppSpacing.h12,
-          ],
-        ),
+          AppSpacing.h12,
+        ],
       ),
     );
   }
