@@ -68,11 +68,13 @@ class _CartItmesPageState extends State<CartItmesPage> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                AutoSizeText(
-                                  widget.cartList[index].name,
-                                  maxLines: 1,
-                                  minFontSize: 12,
-                                  overflow: TextOverflow.ellipsis,
+                                Expanded(
+                                  child: AutoSizeText(
+                                    widget.cartList[index].name,
+                                    maxLines: 1,
+                                    minFontSize: 12,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
                                 ),
                                 IconButton(
                                   onPressed: () {
@@ -85,58 +87,56 @@ class _CartItmesPageState extends State<CartItmesPage> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
-                                Expanded(
-                                  child: QuantityControlWidget(
-                                    quantity: widget.cartList[index].quantity,
-                                    onIncrement: () {
-                                      if (quantityList[index] < max &&
+                                QuantityControlWidget(
+                                  quantity: widget.cartList[index].quantity,
+                                  onIncrement: () {
+                                    if (quantityList[index] < max &&
+                                        quantityList[index] != 0 &&
+                                        quantityList[index] != -1) {
+                                      setState(() {
+                                        quantityList[index] =
+                                            quantityList[index] + 1;
+
+                                        widget.cartList[index] = widget
+                                            .cartList[index]
+                                            .copyWith(
+                                              quantity:
+                                                  widget
+                                                      .cartList[index]
+                                                      .quantity +
+                                                  1,
+                                            );
+                                      });
+                                    } else {
+                                      return;
+                                    }
+                                  },
+                                  onDecrement: () {
+                                    setState(() {
+                                      if (quantityList[index] > 1 &&
                                           quantityList[index] != 0 &&
                                           quantityList[index] != -1) {
-                                        setState(() {
-                                          quantityList[index] =
-                                              quantityList[index] + 1;
-
-                                          widget.cartList[index] = widget
-                                              .cartList[index]
-                                              .copyWith(
-                                                quantity:
-                                                    widget
-                                                        .cartList[index]
-                                                        .quantity +
-                                                    1,
-                                              );
-                                        });
+                                        widget.cartList[index] = widget
+                                            .cartList[index]
+                                            .copyWith(
+                                              quantity:
+                                                  widget
+                                                      .cartList[index]
+                                                      .quantity -
+                                                  1,
+                                            );
                                       } else {
                                         return;
                                       }
-                                    },
-                                    onDecrement: () {
-                                      setState(() {
-                                        if (quantityList[index] > 1 &&
-                                            quantityList[index] != 0 &&
-                                            quantityList[index] != -1) {
-                                          widget.cartList[index] = widget
-                                              .cartList[index]
-                                              .copyWith(
-                                                quantity:
-                                                    widget
-                                                        .cartList[index]
-                                                        .quantity -
-                                                    1,
-                                              );
-                                        } else {
-                                          return;
-                                        }
-                                      });
-                                    },
-                                  ),
-                                  Expanded(
-                                    child: AutoSizeText(
-                                      maxLines: 1,
-                                      priceList[index] != 0
-                                          ? "${(widget.cartList[index].quantity * widget.cartList[index].price).toInt().toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')} 원"
-                                          : "무료 나눔",
-                                    ),
+                                    });
+                                  },
+                                ),
+                                Expanded(
+                                  child: AutoSizeText(
+                                    maxLines: 1,
+                                    priceList[index] != 0
+                                        ? "${(widget.cartList[index].quantity * widget.cartList[index].price).toInt().toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')} 원"
+                                        : "무료 나눔",
                                   ),
                                 ),
                               ],
@@ -158,7 +158,9 @@ class _CartItmesPageState extends State<CartItmesPage> {
               color: Colors.grey,
               borderRadius: BorderRadius.circular(8),
             ),
-            child: Text("${total.toInt()} 원"),
+            child: Text(
+              "${total.toInt().toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')} 원",
+            ),
           ),
           ElevatedButton(
             onPressed: () {},
