@@ -80,7 +80,7 @@ class _InitialPageState extends State<InitialPage> {
               itemCount: items.length,
               itemBuilder: (BuildContext context, int index) {
                 final item = items[index];
-                return productListRow(item, context); // 상품리스트 정보 불러오기
+                return productListRow(item, context, cartList); // 상품리스트 정보 불러오기
               },
               separatorBuilder: (BuildContext context, int index) {
                 return const Divider(); // 리스트 별 구분선

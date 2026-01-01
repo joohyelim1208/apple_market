@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 
 /// 상품 리스트
 @override
-Widget productListRow(Item item, BuildContext context) {
+Widget productListRow(Item item, BuildContext context, List<Item> cartList) {
   // 2가지 예외처리. 1. 가격이 있을 때 / 2. 무료나눔 = 0
   String formatPrice(dynamic price) {
     if (price == 0) {
@@ -27,7 +27,7 @@ Widget productListRow(Item item, BuildContext context) {
     onTap: () {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => DetailPage(item: item)),
+        MaterialPageRoute(builder: (context) => DetailPage(item: item, cartList: cartList,)),
       );
     },
     leading: SizedBox(
