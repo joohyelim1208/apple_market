@@ -23,7 +23,6 @@ class _DetailPageBottomNavigationBarState
         children: [
           Row(
             children: [
-          
               // 마이너스 버튼
               Container(
                 height: 40,
@@ -41,7 +40,7 @@ class _DetailPageBottomNavigationBarState
                   icon: Icon(Icons.remove),
                 ),
               ),
-          
+
               // 수량
               Padding(
                 padding: const EdgeInsets.all(10.0),
@@ -57,16 +56,17 @@ class _DetailPageBottomNavigationBarState
                   borderRadius: BorderRadius.circular(10),
                   color: Colors.grey[200],
                 ),
-          
+
                 // 플러스 버튼
                 child: IconButton(
                   icon: Icon(Icons.add),
                   onPressed: () {
                     setState(() {
-                      if (count < 5) { // 현재 수량이 5개보다 적은지 확인
+                      if (count < 5) {
+                        // 현재 수량이 5개보다 적은지 확인
                         count++;
                       } else {
-                        // ScaffoldMessanger: 앱의 하단에 스낵바 
+                        // ScaffoldMessanger: 앱의 하단에 스낵바
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                             content: Text("최대 구매 수량은 5개 입니다."),
