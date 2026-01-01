@@ -1,6 +1,4 @@
-import 'package:apple_market/entity/item.dart';
 import 'package:apple_market/theme/app_theme.dart';
-import 'package:apple_market/ui/cart_page/cart_page.dart';
 import 'package:apple_market/ui/home_page/home_page.dart';
 import 'package:flutter/material.dart';
 
@@ -18,17 +16,8 @@ class MyApp extends StatelessWidget {
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       themeMode: ThemeMode.light,
-      home: HomePage()
-      // home: HomePage(
-      //   cartList: [
-      //     Item(
-      //       des: "des",
-      //       name: "iPhone 세상에서 가장 싸게 판매합니다.",
-      //       price: 1111000,
-      //       quantity: 3,
-      //     ),
-      //   ],
-      // ),
+      // home: CartEmptyPage()
+      home: HomePage(),
     );
   }
 }
