@@ -21,17 +21,24 @@ class _CartPageState extends State<CartPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Color(0xFFFFC5BF),
-        title: Text('장바구니', style: Theme.of(context).textTheme.titleLarge),
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) {
+        if (didPop) return;
+        Navigator.pop(context, widget.cartList);
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Color(0xFFFFC5BF),
+          title: Text('장바구니', style: Theme.of(context).textTheme.titleLarge),
+        ),
+        body: widget.cartList.isEmpty
+            ? CartEmptyPage()
+            : CartItmesPage(
+                cartList: widget.cartList,
+                onItemDeleted: _onItemDeleted,
+              ),
       ),
-      body: widget.cartList.isEmpty
-          ? CartEmptyPage()
-          : CartItmesPage(
-              cartList: widget.cartList,
-              onItemDeleted: _onItemDeleted,
-            ),
     );
   }
 }
