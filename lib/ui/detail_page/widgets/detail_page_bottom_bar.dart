@@ -99,7 +99,6 @@ class _DetailPageBottomBarState extends State<DetailPageBottomBar> {
                 ),
               ),
               onPressed: () {
-                Item newItem = widget.item.copyWith(quantity: count);
                 Navigator.push(
                   // 장바구니 이동
                   context,

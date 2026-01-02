@@ -25,7 +25,6 @@ class _CartPageState extends State<CartPage> {
       canPop: false,
       onPopInvokedWithResult: (didPop, result) {
         if (didPop) return;
-        print('PopScope');
         Navigator.pop(context, widget.cartList);
       },
       child: Scaffold(
