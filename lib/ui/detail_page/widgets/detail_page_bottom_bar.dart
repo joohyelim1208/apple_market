@@ -99,13 +99,6 @@ class _DetailPageBottomBarState extends State<DetailPageBottomBar> {
                 ),
               ),
               onPressed: () {
-                Navigator.push(
-                  // 장바구니 이동
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => CartPage(cartList: widget.cartList),
-                  ),
-                );
                 // 장바구니에 같은 아이템이 담겼을 때, indexWhere(반복문)과 동등연산자 사용해서 수량 추가
                 int findIndex = widget.cartList.indexWhere(
                   (product) => product.name == widget.item.name,
@@ -113,6 +106,17 @@ class _DetailPageBottomBarState extends State<DetailPageBottomBar> {
                 // findIndex (= 내가 찾고 있는 아이템 번호)
                 // findIndex가 -1이 아니라면 (= 내가 찾는 상품이 장바구니에 있다면)
                 if (findIndex != -1) {
+                  final totalQuantity = widget.cartList[findIndex].quantity + count;
+                  if (totalQuantity > 5){
+                    ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text("최대 구매 수량은 5개 입니다."),
+                            duration: Duration(seconds: 2), // 화면에 머무는 시간
+                            backgroundColor: Colors.grey[500],
+                          ),
+                        );
+                    return;
+                  }
                   setState(() {
                     // copyWith (= 다른 객체 그대로 사용, 특정 값만 바꿀 수 있음)
                     // 가격: cartList의 번호의 가격 + 가격
@@ -128,6 +132,13 @@ class _DetailPageBottomBarState extends State<DetailPageBottomBar> {
                   Item newItem = widget.item.copyWith(quantity: count);
                   widget.addItem(newItem);
                 }
+                Navigator.push(
+                  // 장바구니 이동
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => CartPage(cartList: widget.cartList),
+                  ),
+                );
               },
               child: Text(
                 "장바구니 담기",

@@ -21,8 +21,9 @@ class _HomePageState extends State<HomePage> {
   // 카트 리스트 상태 업데이트 함수
   void onChangeCartList(List<Item> newItems) {
     setState(() {
+      final tempItems = [...newItems];
       cartList.clear();
-      cartList.addAll(newItems);
+      cartList.addAll(tempItems);
     });
   }
 

@@ -36,10 +36,10 @@ class _MainAppBarState extends State<MainAppBar> {
               context,
               widget.cartList,
             );
+            print(result);
             if (result != null) {
               setState(() {
-                widget.cartList.clear();
-                widget.cartList.addAll(result);
+                widget.onchange(result);
               });
             }
           },
