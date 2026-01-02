@@ -2,19 +2,23 @@ import 'package:apple_market/entity/item.dart';
 import 'package:apple_market/ui/cart_page/cart_page.dart';
 import 'package:flutter/material.dart';
 
-List<Item> cartList = [];
-
-class DetailPageBottomNavigationBar extends StatefulWidget {
+class DetailPageBottomBar extends StatefulWidget {
   final Item item;
-  const DetailPageBottomNavigationBar({super.key, required this.item});
+  final List<Item> cartList;
+  final Function(Item) addItem;
+
+  const DetailPageBottomBar({
+    super.key,
+    required this.item,
+    required this.cartList,
+    required this.addItem,
+  });
 
   @override
-  State<DetailPageBottomNavigationBar> createState() =>
-      _DetailPageBottomNavigationBarState();
+  State<DetailPageBottomBar> createState() => _DetailPageBottomBarState();
 }
 
-class _DetailPageBottomNavigationBarState
-    extends State<DetailPageBottomNavigationBar> {
+class _DetailPageBottomBarState extends State<DetailPageBottomBar> {
   int count = 1;
 
   @override
@@ -95,36 +99,34 @@ class _DetailPageBottomNavigationBarState
                 ),
               ),
               onPressed: () {
-                Item newItem = widget.item.copyWith(quantity: count);
                 Navigator.push(
                   // 장바구니 이동
                   context,
                   MaterialPageRoute(
-                    builder: (context) => CartPage(cartList: cartList),
+                    builder: (context) => CartPage(cartList: widget.cartList),
                   ),
                 );
                 // 장바구니에 같은 아이템이 담겼을 때, indexWhere(반복문)과 동등연산자 사용해서 수량 추가
-                int findIndex = cartList.indexWhere(
+                int findIndex = widget.cartList.indexWhere(
                   (product) => product.name == widget.item.name,
                 );
                 // findIndex (= 내가 찾고 있는 아이템 번호)
                 // findIndex가 -1이 아니라면 (= 내가 찾는 상품이 장바구니에 있다면)
-                if (findIndex != -1) { 
+                if (findIndex != -1) {
                   setState(() {
                     // copyWith (= 다른 객체 그대로 사용, 특정 값만 바꿀 수 있음)
                     // 가격: cartList의 번호의 가격 + 가격
-                    cartList[findIndex] = cartList[findIndex].copyWith(
-                      quantity: cartList[findIndex].quantity + count,
-                    );
+                    widget.cartList[findIndex] = widget.cartList[findIndex]
+                        .copyWith(
+                          quantity: widget.cartList[findIndex].quantity + count,
+                        );
                   });
-                } 
+                }
                 // findIndex가 -1이라면 (= 내가 찾는 상품이 -1개임, 장바구니에 없음)
                 // newItem을 선택한 수량에 맞게 장바구니에 담기
                 else {
                   Item newItem = widget.item.copyWith(quantity: count);
-                  setState(() {
-                    cartList.add(newItem);
-                  });
+                  widget.addItem(newItem);
                 }
               },
               child: Text(

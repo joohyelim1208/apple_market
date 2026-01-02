@@ -1,6 +1,4 @@
-import 'package:apple_market/entity/item.dart';
 import 'package:apple_market/theme/app_theme.dart';
-import 'package:apple_market/ui/cart_page/cart_page.dart';
 import 'package:apple_market/ui/home_page/home_page.dart';
 import 'package:flutter/material.dart';
 

@@ -1,19 +1,22 @@
 import 'package:apple_market/entity/item.dart';
-import 'package:apple_market/ui/detail_page/widgets/detail_page_bottom_navigation_bar.dart';
+import 'package:apple_market/ui/detail_page/widgets/detail_page_bottom_bar.dart';
 import 'package:apple_market/ui/detail_page/widgets/product_image.dart';
 import 'package:flutter/material.dart';
 
 class DetailPage extends StatefulWidget {
   // initial_page.dart에서 데이터 받기 위한 변수
   final Item item;
-  const DetailPage({super.key, required this.item});
+  final List<Item> cartList;
+  const DetailPage({super.key, required this.item, required this.cartList});
 
   @override
   State<DetailPage> createState() => _DetailPageState();
 }
 
 class _DetailPageState extends State<DetailPage> {
-
+  void addItem(Item newItem) {
+    widget.cartList.add(newItem);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -98,7 +101,11 @@ class _DetailPageState extends State<DetailPage> {
       ),
 
       // bottom Widget으로 빼서 관리
-      bottomNavigationBar: DetailPageBottomNavigationBar(item: widget.item,),
+      bottomNavigationBar: DetailPageBottomBar(
+        item: widget.item,
+        cartList: widget.cartList,
+        addItem: addItem,
+      ),
     );
   }
 }
