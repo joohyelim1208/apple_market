@@ -17,8 +17,6 @@ class MainAppBar extends StatefulWidget implements PreferredSizeWidget {
 }
 
 class _MainAppBarState extends State<MainAppBar> {
-  final List items = [];
-
   @override
   Widget build(BuildContext context) {
     return AppBar(
