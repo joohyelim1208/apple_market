@@ -83,7 +83,6 @@ class _CartItmesPageState extends State<CartItmesPage> {
                               ],
                             ),
                             Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
                                 QuantityControlWidget(
                                   quantity: widget.cartList[index].quantity,
@@ -123,13 +122,17 @@ class _CartItmesPageState extends State<CartItmesPage> {
                                   },
                                 ),
                                 Expanded(
-                                  child: AutoSizeText(
-                                    maxLines: 1,
-                                    widget.cartList[index].price != 0
-                                        ? "${(widget.cartList[index].quantity * widget.cartList[index].price).toInt().toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')} 원"
-                                        : "무료 나눔",
+                                  child: Align(
+                                    alignment: Alignment.centerRight,
+                                    child: AutoSizeText(
+                                      maxLines: 1,
+                                      widget.cartList[index].price != 0
+                                          ? "${(widget.cartList[index].quantity * widget.cartList[index].price).toInt().toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')} 원"
+                                          : "무료 나눔",
+                                    ),
                                   ),
                                 ),
+                                AppSpacing.w12,
                               ],
                             ),
                           ],
