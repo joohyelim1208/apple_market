@@ -24,8 +24,6 @@ class _CartItmesPageState extends State<CartItmesPage> {
 
   @override
   Widget build(BuildContext context) {
-    List<double> priceList = widget.cartList.map((e) => e.price).toList();
-    List<int> quantityList = widget.cartList.map((e) => e.quantity).toList();
     double total = widget.cartList.fold(
       0.0,
       (previousValue, element) =>
@@ -90,13 +88,8 @@ class _CartItmesPageState extends State<CartItmesPage> {
                                 QuantityControlWidget(
                                   quantity: widget.cartList[index].quantity,
                                   onIncrement: () {
-                                    if (quantityList[index] < max &&
-                                        quantityList[index] != 0 &&
-                                        quantityList[index] != -1) {
+                                    if (widget.cartList[index].quantity < max) {
                                       setState(() {
-                                        quantityList[index] =
-                                            quantityList[index] + 1;
-
                                         widget.cartList[index] = widget
                                             .cartList[index]
                                             .copyWith(
@@ -113,9 +106,7 @@ class _CartItmesPageState extends State<CartItmesPage> {
                                   },
                                   onDecrement: () {
                                     setState(() {
-                                      if (quantityList[index] > 1 &&
-                                          quantityList[index] != 0 &&
-                                          quantityList[index] != -1) {
+                                      if (widget.cartList[index].quantity > 1) {
                                         widget.cartList[index] = widget
                                             .cartList[index]
                                             .copyWith(
@@ -134,7 +125,7 @@ class _CartItmesPageState extends State<CartItmesPage> {
                                 Expanded(
                                   child: AutoSizeText(
                                     maxLines: 1,
-                                    priceList[index] != 0
+                                    widget.cartList[index].price != 0
                                         ? "${(widget.cartList[index].quantity * widget.cartList[index].price).toInt().toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')} 원"
                                         : "무료 나눔",
                                   ),

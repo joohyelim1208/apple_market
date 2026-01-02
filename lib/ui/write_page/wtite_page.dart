@@ -79,7 +79,7 @@ class _WritePageState extends State<WritePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('상품등록'),
+        title: Text('상품등록', style: Theme.of(context).textTheme.titleLarge),
 
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),

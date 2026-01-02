@@ -14,6 +14,14 @@ class _InitialPageState extends State<InitialPage> {
   // 예외처리
   double price = 0;
   String priceText = '';
+
+  void onChangeCartList(List<Item> items) {
+    setState(() {
+      cartList.clear();
+      cartList.addAll(items);
+    });
+  }
+
   // 카드 리스트 아이템 관리 로직 변수 추가
   final List<Item> cartList = [];
   final List<Item> items = [
